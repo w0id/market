@@ -1,0 +1,74 @@
+<div class="container" ng-controller="HomeController">
+    <header class="py-3 mb-4 border-bottom">
+        <div class="container d-flex flex-wrap justify-content-center">
+            <ul id="pagination" class="pagination justify-content-center">
+                <li class="page-item static active">
+                    <a class="page-link" href="" ng-click="changePage($index+1)">1</a>
+                </li>
+                <li class="page-item" ng-repeat="p in [].constructor(totalPages-1) track by $index">
+                    <a class="page-link" href="" ng-click="changePage($index+2)">{{ $index+2 }}</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <div class="container" ng-controller="range">
+        <input type="text" class="js-range-slider" name="my_range" value=""
+               data-type="float"
+               data-min="0"
+               data-max="1000"
+               data-from="0"
+               data-to="1000"
+               data-grid="true"
+        />
+    </div>
+    <h5>Список товаров</h5>
+    <h5>{{total_count}}</h5>
+    <table class="table table-hover" cellpadding="0" cellspacing="0">
+        <tr>
+            <td>ID</td>
+            <td>Наименование товара</td>
+            <td>Стоимость</td>
+            <td>Действие</td>
+        </tr>
+        <tbody>
+        <tr ng-repeat="p in productsList">
+            <td>{{p.id}}</td>
+            <td>{{p.name}}</td>
+            <td>
+                {{p.cost}}
+            </td>
+            <td>
+                <button class="btn btn-outline-danger" ng-click="addToCart(p.id)">Добавить в корзину</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <P/>
+    <h3>Корзина</h3>
+    <table class="table table-hover" cellpadding="0" cellspacing="0">
+        <tr>
+            <td>Наименование товара</td>
+            <td>Количество</td>
+            <td>Стоимость</td>
+        </tr>
+        <tbody>
+        <tr ng-repeat="c in cart.items">
+            <td>{{c.productName}}</td>
+            <td>
+                <button class="btn btn-outline-primary" ng-click="changeQuantity(c.id, -1)">-</button>
+                {{c.quantity}}
+                <button class="btn btn-outline-primary" ng-click="changeQuantity(c.id, 1)">+</button>
+                <button class="btn btn-outline-danger" ng-click="deleteFromCart(c.id)">X</button>
+            </td>
+            <td>
+                {{c.costPerProduct + ' x ' + c.quantity + ' = ' + c.cost}}
+            </td>
+        </tr>
+        <tr>
+            <td>Итого</td>
+            <td></td>
+            <td>{{cart.totalCost}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

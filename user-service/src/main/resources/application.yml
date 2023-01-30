@@ -1,0 +1,18 @@
+server:
+  port: 9095
+#  servlet:
+#    context-path: /market-user
+#logging:
+#  level:
+#    root: debug
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/market
+    username: w0id
+    password: 2311
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
+#    hibernate:
+#      ddl-auto: create

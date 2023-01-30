@@ -1,0 +1,15 @@
+server:
+  port: 9091
+#logging:
+#  level:
+#    root: debug
+#  servlet:
+#    context-path: /cart
+integrations:
+  core-service:
+    url: http://localhost:9099/
+    connect-timeout: 5000
+    read-timeout: 10000
+    write-timeout: 5000
+cart-service:
+  cart-prefix: market_

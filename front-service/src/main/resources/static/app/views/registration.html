@@ -1,0 +1,52 @@
+<div class=" col-md-6 col-md-offset-3">
+    <div class="panel panel-default">
+        <div class="panel-heading">Регистрация</div>
+        <div class="panel-body">
+            <div class="col-md-12">
+                <form ng-submit="submit()" name="registration" novalidate>
+                    <div class="form-group"
+                         ng-class="{ 'has-error': registration.username.$invalid && registration.username.$dirty }">
+                        <label for="username">Имя пользователя:</label> <input type="text"
+                                                                       required class="form-control"
+                                                                       ng-model="appUser.username"
+                                                                       id="username" name="username">
+                    </div>
+
+                    <div class="form-group"
+                         ng-class="{ 'has-error': registration.email.$invalid && registration.email.$dirty }">
+                        <label for="email">Email:</label> <input type="text"
+                                                                       required class="form-control"
+                                                                       ng-model="appUser.customer.email"
+                                                                       id="email" name="email">
+                    </div>
+
+                    <div class="form-group"
+                         ng-class="{ 'has-error': registration.password.$invalid && registration.password.$dirty }">
+                        <label for="pwd">Пароль:</label> <input type="password" required
+                                                                  class="form-control" id="pwd"
+                                                                  ng-model="appUser.password"
+                                                                  name="password">
+                    </div>
+
+                    <div class="form-group"
+                         ng-class="{ 'has-error': registration.confirmPassword.$invalid && registration.confirmPassword.$dirty }">
+                        <label for="cpwd">Подтверждение пароля:</label> <input type="password"
+                                                                           name="confirmPassword" required
+                                                                           class="form-control" id="cpwd"
+                                                                           ng-model="confirmPassword">
+                    </div>
+
+                    <div class="alert alert-warning margin-top-5"
+                         ng-show="confirmPassword != appUser.password ">Пароли не совпадают
+                    </div>
+
+                    <button type="submit" class="btn btn-default"
+                            ng-disabled="registration.$invalid || (confirmPassword != appUser.password)">Зарегистрироваться
+                    </button>
+                    <button class="btn btn-default" ui-sref="login">Войти</button>
+                    <div class="alert alert-info margin-top-5" ng-show="message">{{message}}</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
