@@ -16,8 +16,9 @@ public class CustomerController {
     private final UserWrapperConverter userWrapperConverter;
     private final CustomerService customerService;
 
-    @GetMapping("/{username}")
-    public CustomerDto getUser(@PathVariable String username) {
+    @GetMapping//("/{username}")
+//    public CustomerDto getUser(@PathVariable String username) {
+    public CustomerDto getUser(@RequestHeader(name = "username", required = false) String username) {
         return customerConverter.entityToDto(customerService.getUser(username));
     }
 

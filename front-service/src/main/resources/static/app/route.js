@@ -11,6 +11,15 @@ angular.module('jwtApp').config(function ($stateProvider, $urlRouterProvider) {
                 controller: 'NavController'
             }
         }
+    }).state('secure', {
+        parent: 'nav',
+        url: '/secure',
+        views: {
+            'content@': {
+                templateUrl: 'app/views/secure.html',
+                controller: 'SecureController'
+            }
+        }
     }).state('login', {
         parent: 'nav',
         url: '/login',
@@ -20,19 +29,21 @@ angular.module('jwtApp').config(function ($stateProvider, $urlRouterProvider) {
                 controller: 'LoginController'
             }
         }
-    }).state('users', {
-        parent: 'nav',
-        url: '/users',
-        data: {
-            role: 'ROLE_ADMIN'
-        },
-        views: {
-            'content@': {
-                templateUrl: 'app/views/users.html',
-                controller: 'UsersController',
-            }
-        }
-    }).state('home', {
+    })
+    // .state('users', {
+    //     parent: 'nav',
+    //     url: '/users',
+    //     data: {
+    //         role: 'market.admin'
+    //     },
+    //     views: {
+    //         'content@': {
+    //             templateUrl: 'app/views/users.html',
+    //             controller: 'UsersController',
+    //         }
+    //     }
+    // })
+    .state('home', {
         parent: 'nav',
         url: '/',
         views: {
@@ -73,10 +84,10 @@ angular.module('jwtApp').config(function ($stateProvider, $urlRouterProvider) {
         url: '/manage',
         data: [
             {
-                role: "ROLE_MANAGER"
+                role: "market.manager"
             },
             {
-                role: "ROLE_ADMIN"
+                role: "market.admin"
             }
         ],
         views: {

@@ -35,9 +35,9 @@ public class OrderService {
     private final PickUpService pickUpService;
     private final IOrderRepository orderRepository;
 
-    public Customer getCustomer(String username) {
+    public Customer getCustomer(String username, String token) {
         try {
-            return customerConverter.dtoToEntity(customerServiceIntegration.getCustomerByUsername(username));
+            return customerConverter.dtoToEntity(customerServiceIntegration.getCustomerByUsername(username, token));
         } catch (UnauthorizedUserException e) {
             throw new UnauthorizedUserException("Пользователь не авторизован");
         }

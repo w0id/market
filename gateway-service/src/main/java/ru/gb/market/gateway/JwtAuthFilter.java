@@ -11,7 +11,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Config> {
@@ -63,10 +65,15 @@ public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Co
     }
 
     private void populateRequestWithHeaders(ServerWebExchange exchange, String token) {
-        Claims claims = jwtUtil.getAllClaimsFromToken(token);
+        Map<String, Object> claims = null;
+        try {
+            claims = jwtUtil.getAllClaimsFromToken(token).getJWTClaimsSet().getClaims();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         exchange.getRequest().mutate()
-                .header("username", claims.getSubject())
-                .header("roles", String.valueOf((List<String>) claims.get("authority")))
+                .header("username", claims.get("preferred_username").toString())
+//                .header("roles", String.valueOf((List<String>) claims.get("authority")))
                 .build();
     }
 }
