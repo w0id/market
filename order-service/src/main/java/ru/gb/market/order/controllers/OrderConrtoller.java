@@ -20,8 +20,9 @@ public class OrderConrtoller {
     private final OrderService orderService;
 
     @GetMapping
-    public CustomerDto getCustomer(@RequestParam String username) {
-        return new CustomerDto(orderService.getCustomer(username));
+//    public CustomerDto getCustomer(@RequestParam String username) {
+    public CustomerDto getCustomer(@RequestHeader(name = "username", required = false) String username, @RequestHeader(name = "Authorization", required = false) String token) {
+        return new CustomerDto(orderService.getCustomer(username, token));
     }
 
     @GetMapping("/delivery_types")

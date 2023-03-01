@@ -1,8 +1,6 @@
 package ru.gb.market.user.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.gb.market.user.data.Customer;
 import ru.gb.market.user.data.User;
 

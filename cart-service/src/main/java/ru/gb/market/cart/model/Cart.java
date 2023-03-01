@@ -22,9 +22,24 @@ public class Cart {
         items.stream().filter(i -> i.getId().equals(product.getId()))
                 .findFirst()
                 .ifPresentOrElse(i -> {
-                    items.set(items.indexOf(i),new CartItem(product.getId(), product.getName(), i.getQuantity()+1, product.getCost(), product.getCost().multiply(BigDecimal.valueOf(i.getQuantity() + 1))));
+//                    items.set(items.indexOf(i),new CartItem(product.getId(), product.getName(), i.getQuantity()+1, product.getCost(), product.getCost().multiply(BigDecimal.valueOf(i.getQuantity() + 1))));
+                    items.set(items.indexOf(i), CartItem.builder()
+                            .id(product.getId())
+                            .productName(product.getName())
+                            .quantity(i.getQuantity() + 1)
+                            .costPerProduct(product.getCost())
+                            .cost(product.getCost()
+                                    .multiply(BigDecimal.valueOf(i.getQuantity() + 1)))
+                            .build());
                 }, () -> {
-                    items.add(new CartItem(product.getId(), product.getName(), 1, product.getCost(), product.getCost()));
+//                    items.add(new CartItem(product.getId(), product.getName(), 1, product.getCost(), product.getCost()));
+                    items.add(CartItem.builder()
+                            .id(product.getId())
+                            .productName(product.getName())
+                            .quantity(1)
+                            .costPerProduct(product.getCost())
+                            .cost(product.getCost())
+                            .build());
                 });
         recalculate();
     }
@@ -46,7 +61,15 @@ public class Cart {
                     if ((i.getQuantity() + quantity)==0) {
                         items.remove(items.indexOf(i));
                     } else {
-                        items.set(items.indexOf(i),new CartItem(product.getId(), product.getName(), i.getQuantity()+quantity, product.getCost(), product.getCost().multiply(BigDecimal.valueOf(i.getQuantity() + quantity))));
+//                        items.set(items.indexOf(i),new CartItem(product.getId(), product.getName(), i.getQuantity()+quantity, product.getCost(), product.getCost().multiply(BigDecimal.valueOf(i.getQuantity() + quantity))));
+                        items.set(items.indexOf(i), CartItem.builder()
+                                .id(product.getId())
+                                .productName(product.getName())
+                                .quantity(i.getQuantity() + quantity)
+                                .costPerProduct(product.getCost())
+                                .cost(product.getCost()
+                                        .multiply(BigDecimal.valueOf(i.getQuantity() + quantity)))
+                                .build());
                     }
                 });
         recalculate();

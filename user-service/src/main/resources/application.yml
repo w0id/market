@@ -2,10 +2,17 @@ server:
   port: 9095
 #  servlet:
 #    context-path: /market-user
-#logging:
-#  level:
-#    root: debug
+logging:
+  level:
+    root: debug
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        opaquetoken:
+          introspection-uri: http://localhost:9500/realms/market/protocol/openid-connect/token/introspect
+          client-id: quotes-client
+          client-secret: G4MuSHTHXP14ryg5VQWDB2qyKjhejoUl
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/market

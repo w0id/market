@@ -1,29 +1,25 @@
-angular.module('jwtApp')
-    .controller('LoginController', function ($http, $scope, $state, AuthService, $rootScope) {
-        $scope.login = function () {
-            $http({
-                url: 'http://localhost:9100/auth',
-                method: "POST",
-                data: {
-                    username: $scope.username,
-                    password: $scope.password
-                }
-            }).success(function (res) {
-                $scope.password = null;
-                if (res.token) {
-                    $scope.message = '';
-                    $http.defaults.headers.common['Authorization'] = 'Bearer ' + res.token;
-
-                    AuthService.user = res.user;
-                    $rootScope.$broadcast('LoginSuccessful');
-                    localStorage.setItem('user', JSON.stringify(res.user));
-                    localStorage.setItem('token', res.token);
-                    $state.go('home');
-                } else {
-                    $scope.message = 'Авторизация не прошла!';
-                }
-            }).error(function (error) {
-                $scope.message = 'Авторизация не прошла!';
-            });
-        };
-    });
+angular.module('jwtApp').controller('LoginController', function($scope, $http, $state, $cookies, $rootScope, sharedProps, AuthService) {
+	$scope.login = function () {
+		$http({
+			url: 'http://localhost:9500/realms/market/protocol/openid-connect/token',
+			method: "POST",
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+			data: $.param(
+				{
+					client_id: 'js-client',
+					grant_type: 'password',
+					username: $scope.username,
+					password: $scope.password
+				}
+			)
+		}).success(function (res) {
+			$http.defaults.headers.common['Authorization'] = 'Bearer ' + res.access_token;
+			localStorage.setItem('token', res.access_token);
+			localStorage.setItem('refreshToken', res.refresh_token);
+			$cookies.put('X-Authorization-Token', res.access_token);
+			$rootScope.$broadcast('InitMethod');
+		}).error(function (error) {
+			$scope.message = 'Авторизация не прошла!';
+		});
+	};
+});

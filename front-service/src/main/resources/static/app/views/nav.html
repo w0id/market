@@ -22,32 +22,32 @@
             <a class="navbar-brand" ui-sref="home">GB</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-            <div ng-repeat="role in user.authorities">
+            <div ng-repeat="role in user.realm_access.roles">
+                <!-- <ul class="nav navbar-nav">
+                    <li ng-show="role == 'market.admin'"><a ui-sref="users">Пользователи</a></li>
+                </ul> -->
                 <ul class="nav navbar-nav">
-                    <li ng-show="role.authority == 'ROLE_ADMIN'"><a ui-sref="users">Пользователи</a></li>
-                </ul>
-                <ul class="nav navbar-nav">
-                    <li ng-show="role.authority == 'ROLE_MANAGER' || role.authority == 'ROLE_ADMIN'"><a ui-sref="manage">Управление товарами</a></li>
+                    <li ng-show="role == 'market.manager' || role == 'market.admin'"><a ui-sref="manage">Управление товарами</a></li>
                 </ul>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li ng-show="user.username">
+                <li ng-show="user.preferred_username">
                     <a ui-sref="order">
                         <span class="glyphicon glyphicon-shopping-cart"></span>
                     </a>
                 </li>
-                <li ng-show="user.username">
+                <li ng-show="user.name">
                     <a>
-                        <span class="user">Привет, {{user.username}}</span>
+                        <span class="user">Привет, {{user.name}}</span>
                         <span ng-click="logout()" href="" class="logout">Выход</span>
                     </a>
                 </li>
-                <li ng-if="(!user.username && selected_login && !selected_registration)"><a ui-sref="registration">Регистрация</a></li>
-                <li ng-if="(!user.username && !selected_login && selected_registration)"><a ui-sref="login">Вход</a></li>
-                <li ng-if="(!user.username && selected_login && selected_registration)">
+                <li ng-if="(!user.preferred_username && selected_login && !selected_registration)"><a ui-sref="registration">Регистрация</a></li>
+                <li ng-if="(!user.preferred_username && !selected_login && selected_registration)"><a ui-sref="login">Вход</a></li>
+                <li ng-if="(!user.preferred_username && selected_login && selected_registration)">
                     <a ui-sref="login">Вход</a>
                 </li>
-                <li ng-if="(!user.username && selected_login && selected_registration)">
+                <li ng-if="(!user.preferred_username && selected_login && selected_registration)">
                     <a ui-sref="registration">Регистрация</a>
                 </li>
             </ul>

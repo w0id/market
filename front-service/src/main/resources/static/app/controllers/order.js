@@ -4,9 +4,10 @@ angular.module('jwtApp')
         var init = function () {
             $http.get(
                 'http://localhost:9100/order/api/v1/order',
-                {
-                    params: { username: AuthService.user.username }
-                }).success(function (res) {
+                // {
+                //     params: { username: AuthService.user.preferred_username }
+                // }
+                ).success(function (res) {
                 $scope.customer = res;
 
                 $scope.orderForm.$setPristine();

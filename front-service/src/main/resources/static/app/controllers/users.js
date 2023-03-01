@@ -3,15 +3,15 @@ angular.module('jwtApp')
         $scope.roles = [
                 {
                     "id": null,
-                    "name": "ROLE_ADMIN"
+                    "name": "market.admin"
                 },
                 {
                     "id": null,
-                    "name": "ROLE_MANAGER"
+                    "name": "market.manager"
                 },
                 {
                     "id": null,
-                    "name": "ROLE_USER"
+                    "name": "market.user"
                 }
             ]
 

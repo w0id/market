@@ -1,5 +1,5 @@
 angular.module('jwtApp')
-    .controller('NavController', function ($http, $scope, AuthService, $state, $rootScope) {
+    .controller('NavController', function ($http, $scope, AuthService, $state, $rootScope, $cookies) {
         if (localStorage['user']) {
             $scope.user = AuthService.user;
         }
@@ -7,13 +7,12 @@ angular.module('jwtApp')
             $scope.user = AuthService.user;
             $scope.mergeCarts();
         });
-        $scope.$on('LogoutSuccessful', function () {
-            $scope.user = null;
-        });
         $scope.logout = function () {
             AuthService.user = null;
-            localStorage.removeItem('user');
+            $scope.user = null;
             localStorage.removeItem('token');
+            localStorage.removeItem('refreshToken');
+            $cookies.remove('X-Authorization-Token');
             $http.defaults.headers.common['Authorization'] = '';
             $rootScope.$broadcast('LogoutSuccessful');
             $state.go('login');

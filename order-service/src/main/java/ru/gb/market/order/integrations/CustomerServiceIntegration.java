@@ -13,9 +13,14 @@ import ru.gb.market.order.dtos.CustomerDto;
 public class CustomerServiceIntegration {
     private final WebClient customerServiceWebClient;
 
-    public CustomerDto getCustomerByUsername(String username) {
+    public CustomerDto getCustomerByUsername(String username, String token) {
         return customerServiceWebClient.get()
-                .uri("/api/v1/customers/" + username)
+//                .uri("/api/v1/customers/" + username)
+                .uri("/api/v1/customers")
+                .headers(headers -> {
+                    headers.setBearerAuth(token.substring(7));
+                    headers.set("username", username);
+                })
                 .retrieve()
                 .onStatus(
                         httpStatusCode -> httpStatusCode.value() == HttpStatus.NOT_FOUND.value(),
