@@ -1,6 +1,7 @@
 package ru.gb.market.core.services;
 
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -31,7 +32,12 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    public Page<Product> getProductFilter(BigDecimal min, BigDecimal max, Integer page) {
+    @Cacheable(cacheNames = "productsCache", condition = "#cachable")
+    public Page<Product> getProductFilter(BigDecimal min, BigDecimal max, Integer page, boolean cachable) {
+        return this.cachedGetProductFilter(min, max, page);
+    }
+
+    public Page<Product> cachedGetProductFilter(BigDecimal min, BigDecimal max, Integer page) {
         Specification<Product> spec = Specification.where(null);
         if (null != min) {
             spec = spec.and(ProductsSpecifications.costGreaterThenOrEqualsThen(min));

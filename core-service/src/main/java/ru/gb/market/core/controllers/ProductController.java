@@ -3,6 +3,7 @@ package ru.gb.market.core.controllers;
 import api.ProductDto;
 import api.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.market.core.converters.ProductConverter;
@@ -29,12 +30,13 @@ public class ProductController {
     public Page<ProductDto> getProducts(
             @RequestParam(value = "min",required = false) BigDecimal min,
             @RequestParam(value = "max",required = false) BigDecimal max,
-            @RequestParam(value = "p", defaultValue = "1") Integer page
+            @RequestParam(value = "p", defaultValue = "1") Integer page,
+            @RequestParam(value = "cache", defaultValue = "true") boolean cachable
     ) {
         if (page < 1) {
             page = 1;
         }
-        return productService.getProductFilter(min, max, page).map(
+        return productService.getProductFilter(min, max, page, cachable).map(
                 productConverter::entityToDto
         );
     }
@@ -51,6 +53,7 @@ public class ProductController {
     }
 
     @PutMapping
+    @CacheEvict(cacheNames = "productsCache", allEntries=true)
     public ProductDto changeCost(@RequestBody ProductDto productDto) {
         Product product = productService.getProduct(productDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Продукт с id: " + productDto.getId() + " не найден"));
         product.setCost(productDto.getCost());

@@ -47,7 +47,8 @@ angular.module('jwtApp')
             params: {
                 min: $scope.filter ? $scope.filter.min : null,
                 max: $scope.filter ? $scope.filter.max : null,
-                p: $scope.filter ? $scope.page : null
+                p: $scope.filter ? $scope.page : null,
+                cache: false
             }
         })
             .then(function (response) {
