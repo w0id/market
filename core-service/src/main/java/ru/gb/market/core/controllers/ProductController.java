@@ -29,12 +29,13 @@ public class ProductController {
     public Page<ProductDto> getProducts(
             @RequestParam(value = "min",required = false) BigDecimal min,
             @RequestParam(value = "max",required = false) BigDecimal max,
-            @RequestParam(value = "p", defaultValue = "1") Integer page
+            @RequestParam(value = "p", defaultValue = "1") Integer page,
+            @RequestParam(value = "cache", defaultValue = "true") boolean cachable
     ) {
         if (page < 1) {
             page = 1;
         }
-        return productService.getProductFilter(min, max, page).map(
+        return productService.getProductFilter(min, max, page, cachable).map(
                 productConverter::entityToDto
         );
     }
