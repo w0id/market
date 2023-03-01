@@ -19,4 +19,9 @@ public class DeliveryType {
 
     @Column(name = "title")
     private String title;
+
+    @Override
+    public String toString() {
+        return title;
+    }
 }
