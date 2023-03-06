@@ -2,9 +2,9 @@ server:
   port: 9095
 #  servlet:
 #    context-path: /market-user
-logging:
-  level:
-    root: debug
+#logging:
+#  level:
+#    root: debug
 spring:
   security:
     oauth2:
