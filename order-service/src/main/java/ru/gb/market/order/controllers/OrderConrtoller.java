@@ -7,7 +7,7 @@ import ru.gb.market.order.data.DeliveryType;
 import ru.gb.market.order.data.PickUpPoint;
 import ru.gb.market.order.dtos.CustomerDto;
 import ru.gb.market.order.services.OrderService;
-import ru.gb.market.order.wrappers.OrderWrapper;
+import ru.gb.market.order.views.OrderView;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class OrderConrtoller {
     }
 
     @PostMapping
-    public void createOrder(@RequestHeader(name = "username", required = false) String username, @RequestBody OrderWrapper orderWrapper) {
-        orderService.createOrder(orderWrapper, username);
+    public void createOrder(@RequestHeader(name = "username", required = false) String username, @RequestBody OrderView orderView) {
+        orderService.createOrder(orderView, username);
     }
 }

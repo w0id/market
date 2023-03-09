@@ -17,11 +17,11 @@ import ru.gb.market.order.events.OrderEvent;
 import ru.gb.market.order.integrations.CartServiceIntegration;
 import ru.gb.market.order.integrations.CustomerServiceIntegration;
 import ru.gb.market.order.integrations.ProductServiceIntegration;
+import ru.gb.market.order.mappers.OrderMapper;
 import ru.gb.market.order.repositories.IOrderRepository;
-import ru.gb.market.order.wrappers.OrderWrapper;
+import ru.gb.market.order.views.OrderView;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -37,6 +37,7 @@ public class OrderService {
     private final DeliveryService deliveryService;
     private final PickUpService pickUpService;
     private final IOrderRepository orderRepository;
+    private final OrderMapper mapper;
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
@@ -58,25 +59,10 @@ public class OrderService {
     }
 
     @Transactional
-    public void createOrder(final OrderWrapper orderWrapper, String username) {
-        Order order = new Order();
-        if (null != orderWrapper.getPickUpPoint().getId()) {
-            order.setPickUpPoint(orderWrapper.getPickUpPoint());
-        }
-        order.setCustomer(orderWrapper.getCustomer());
-        order.setDeliveryType(orderWrapper.getDeliveryType());
+    public void createOrder(final OrderView orderView, String username) {
+        Order order = mapper.orderWrapperToOrder(orderView, username);
         CartDto cartDto = cartServiceIntegration.getCurrentCart(username);
-        order.setOrderItems(cartDto.getItems().stream().map(
-                        cartItem -> {
-                            return new OrderItem(
-                                    productConverter.dtoToEntity(productServiceIntegration.getProductById(cartItem.getId())),
-                                    order,
-                                    cartItem.getQuantity()
-                            );
-                        }
-                ).collect(Collectors.toList())
-        );
-        OrderEvent orderEvent = new OrderEvent(this, orderWrapper, cartDto, username);
+        OrderEvent orderEvent = new OrderEvent(this, orderView, cartDto, username);
         TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
             @Override
             public void afterCommit() {
