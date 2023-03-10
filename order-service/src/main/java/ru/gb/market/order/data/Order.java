@@ -2,6 +2,7 @@ package ru.gb.market.order.data;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
