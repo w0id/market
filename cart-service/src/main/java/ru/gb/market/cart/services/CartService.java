@@ -77,4 +77,8 @@ public class CartService {
         save(userCartUuid, userCart);
         save(guestCartUuid, guestCart);
     }
+
+    public void cleanCart(String cartId) {
+        execute(cartId, Cart::clear);
+    }
 }

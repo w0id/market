@@ -30,19 +30,6 @@ angular.module('jwtApp').config(function ($stateProvider, $urlRouterProvider) {
             }
         }
     })
-    // .state('users', {
-    //     parent: 'nav',
-    //     url: '/users',
-    //     data: {
-    //         role: 'market.admin'
-    //     },
-    //     views: {
-    //         'content@': {
-    //             templateUrl: 'app/views/users.html',
-    //             controller: 'UsersController',
-    //         }
-    //     }
-    // })
     .state('home', {
         parent: 'nav',
         url: '/',
@@ -50,6 +37,15 @@ angular.module('jwtApp').config(function ($stateProvider, $urlRouterProvider) {
             'content@': {
                 templateUrl: 'app/views/home.html',
                 controller: 'HomeController'
+            }
+        }
+    }).state('cart', {
+        parent: 'nav',
+        url: '/cart',
+        views: {
+            'content@': {
+                templateUrl: 'app/views/cart.html',
+                controller: 'CartController'
             }
         }
     }).state('page-not-found', {
