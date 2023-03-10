@@ -44,31 +44,4 @@
         </tbody>
     </table>
     <P/>
-    <h3>Корзина</h3>
-    <table class="table table-hover" cellpadding="0" cellspacing="0">
-        <tr>
-            <td>Наименование товара</td>
-            <td>Количество</td>
-            <td>Стоимость</td>
-        </tr>
-        <tbody>
-        <tr ng-repeat="c in cart.items">
-            <td>{{c.productName}}</td>
-            <td>
-                <button class="btn btn-outline-primary" ng-click="changeQuantity(c.id, -1)">-</button>
-                {{c.quantity}}
-                <button class="btn btn-outline-primary" ng-click="changeQuantity(c.id, 1)">+</button>
-                <button class="btn btn-outline-danger" ng-click="deleteFromCart(c.id)">X</button>
-            </td>
-            <td>
-                {{c.costPerProduct + ' x ' + c.quantity + ' = ' + c.cost}}
-            </td>
-        </tr>
-        <tr>
-            <td>Итого</td>
-            <td></td>
-            <td>{{cart.totalCost}}</td>
-        </tr>
-        </tbody>
-    </table>
 </div>

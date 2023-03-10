@@ -57,4 +57,17 @@ public class CartController {
         String targetUuid = getCartUuid(username, uuid);
         cartService.delete(targetUuid, id);
     }
+
+    @GetMapping("/clear")
+    public void cleanCurrentCart(@RequestHeader(required = false) String username, @RequestParam String uuid) {
+        String currentCartId = selectCartId(username, uuid);
+        cartService.cleanCart(currentCartId);
+    }
+
+    private String selectCartId(String username, String guestCartId) {
+        if (username != null) {
+            return username;
+        }
+        return guestCartId;
+    }
 }

@@ -23,16 +23,13 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <div ng-repeat="role in user.realm_access.roles">
-                <!-- <ul class="nav navbar-nav">
-                    <li ng-show="role == 'market.admin'"><a ui-sref="users">Пользователи</a></li>
-                </ul> -->
                 <ul class="nav navbar-nav">
                     <li ng-show="role == 'market.manager' || role == 'market.admin'"><a ui-sref="manage">Управление товарами</a></li>
                 </ul>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li ng-show="user.preferred_username">
-                    <a ui-sref="order">
+                <li>
+                    <a ui-sref="cart">
                         <span class="glyphicon glyphicon-shopping-cart"></span>
                     </a>
                 </li>

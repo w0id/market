@@ -4,9 +4,6 @@ angular.module('jwtApp')
         var init = function () {
             $http.get(
                 'http://localhost:9100/order/api/v1/order',
-                // {
-                //     params: { username: AuthService.user.preferred_username }
-                // }
                 ).success(function (res) {
                 $scope.customer = res;
 
@@ -52,6 +49,23 @@ angular.module('jwtApp')
             } else {
                 $("#point").attr('disabled', false);
             }
+            if ((($scope.appOrder.deliveryType.id == "2" && $scope.appOrder.pickUpPoint.id != null) || $scope.appOrder.deliveryType.id == "1") && $scope.cart.items.length != 0) {
+                $("#send").attr('disabled', false);
+            } else {
+                $("#send").attr('disabled', true);
+            }
+        }
+
+        $scope.clearCart = function () {
+            $http({
+                url: 'http://localhost:9100/cart/api/v1/cart_items/clear',
+                method: 'GET',
+                params: {
+                    'uuid': localStorage.marketGuestId
+                }
+            }).then(function (response) {
+                loadCartItems();
+            });
         }
 
         $scope.sendOrder = function () {
@@ -63,6 +77,8 @@ angular.module('jwtApp')
             $http.post('http://localhost:9100/order/api/v1/order', $scope.appOrder).success(function (res) {
                 $scope.orderForm.$setPristine();
                 $scope.message = "Заказ отправлен";
+                $scope.clearCart();
+                $("#send").attr('disabled', true);
             }).error(function (error) {
                 $scope.message = error.message;
             });

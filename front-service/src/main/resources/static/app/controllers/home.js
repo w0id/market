@@ -3,13 +3,6 @@ angular.module('jwtApp')
     .controller('HomeController', function ($scope, $document, $http) {
         $scope.filter = {}
 
-        if (!localStorage.marketGuestId) {
-            $http.get('http://localhost:9100/cart/api/v1/cart_items/generate_uuid')
-                .then(function successCallback(response) {
-                    localStorage.marketGuestId = response.data.value;
-                });
-        }
-
         $scope.loadProducts = function (page) {
             $scope.page = page;
             $http({
@@ -29,22 +22,7 @@ angular.module('jwtApp')
                         $scope.page = $scope.totalPages -1;
                     }
                     $scope.count = response.data.content.length;
-                    $scope.loadCartItems()
                 });
-        };
-
-        $scope.loadCartItems = function () {
-            $http({
-                url: 'http://localhost:9100/cart/api/v1/cart_items',
-                method: 'GET',
-                params: {
-                    uuid: localStorage.marketGuestId
-                }
-            })
-                .then(function (response) {
-                    $scope.cart = response.data;
-                });
-
         };
 
         $scope.addToCart = function (id) {
@@ -60,33 +38,6 @@ angular.module('jwtApp')
                     });
         }
 
-        $scope.changeQuantity = function (id, quantity) {
-            $http({
-                url: 'http://localhost:9100/cart/api/v1/cart_items',
-                method: 'PUT',
-                params: {
-                    uuid: localStorage.marketGuestId,
-                    id: id,
-                    quantity: quantity
-                }
-                  }).then(function (response) {
-                      $scope.loadCartItems();
-            })
-        }
-
-        $scope.deleteFromCart = function (id) {
-            $http({
-                url: 'http://localhost:9100/cart/api/v1/cart_items',
-                method: 'DELETE',
-                params: {
-                    uuid: localStorage.marketGuestId,
-                    id: id
-                }
-            })
-                .then(function (response) {
-                    $scope.loadCartItems();
-                });
-        };
 
         $scope.setActive = function (static) {
             if (static == null) {
